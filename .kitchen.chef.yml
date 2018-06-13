@@ -1,0 +1,53 @@
+---
+driver:
+  name: vagrant
+  box_check_update: true
+  customize:
+    memory: 1024
+    cpus: 1
+  ssh:
+    insert_key: false
+
+provisioner:
+  name: chef_zero
+  log_level: <%= ENV['CHEF_LOG_LEVEL'] || "info" %>
+  product_name: chef
+  product_version: latest
+  channel: stable
+  install_strategy: once
+  deprecations_as_errors: false
+  multiple_converge: 1
+  enforce_idempotency: false
+  always_update_cookbooks: true
+  retry_on_exit_code:
+    - 35
+  wait_for_retry: 30
+  retry_on_exit: 1
+  max_retries: 10
+  root_path: /var/tmp/kitchen # /tmp gets deleted on reboot due to tmpfs
+  client_rb:
+      add_formatter: doc # doc, minimal, min
+      environment: _default
+      exit_status: :enabled # always the case with Chef 13
+      client_fork: false
+
+transport:
+  ssh_key: <%= "#{ENV['AWS_SSH_KEY_PATH']}" || "#{ENV['HOME']}/.ssh/id_rsa_iad_terraform" %>
+  connection_timeout: 30
+  connection_retries: 10
+  connection_retry_sleep: 10
+
+verifier:
+  name: inspec
+  backend_cache: true
+
+platforms:
+  - name: ubuntu-16.04
+    driver_config:
+      network:
+        - ["private_network", { type: "dhcp" } ]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[chefdk-aws-issue::default]

@@ -1,0 +1,58 @@
+# Lines that start with '# ' are comments.
+
+# OS generated files #
+######################
+.DS_Store
+Icon?
+nohup.out
+ehthumbs.db
+Thumbs.db
+
+# SASS #
+########
+.sass-cache
+
+# EDITORS #
+###########
+\#*
+.#*
+*~
+*.sw[a-z]
+*.bak
+REVISION
+TAGS*
+tmtags
+*_flymake.*
+*_flymake
+*.tmproj
+.project
+.settings
+mkmf.log
+*.log
+
+## COMPILED ##
+##############
+a.out
+*.o
+*.pyc
+*.so
+*.com
+*.class
+*.dll
+*.exe
+*/rdoc/
+
+# Berkshelf #
+#############
+Berksfile.lock
+cookbooks/*
+tmp
+*.tmp
+
+# Vagrant #
+###########
+.vagrant
+
+.kitchen
+
+test/integration/nodes/*
